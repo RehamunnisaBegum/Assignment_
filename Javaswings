@@ -1,0 +1,67 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class BloodBankingSystem extends JFrame implements ActionListener {
+    private JTextArea textArea;
+    private JTextField nameField, ageField;
+    private JScrollPane scrollPane;
+    private JRadioButton maleRadioButton, femaleRadioButton;
+    private JComboBox<String> bloodGroupComboBox;
+    private JButton submitButton;
+
+    private BloodBankingSystem() {
+        setTitle("Blood Banking System");
+        setSize(400, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        textArea = new JTextArea(10, 30);
+        scrollPane = new JScrollPane(textArea);
+        add(scrollPane);
+
+        add(new JLabel("Name:"));
+        nameField = new JTextField(20);
+        add(nameField);
+
+        add(new JLabel("Age:"));
+        ageField = new JTextField(5);
+        add(ageField);
+
+        add(new JLabel("Gender:"));
+        maleRadioButton = new JRadioButton("Male");
+        femaleRadioButton = new JRadioButton("Female");
+        ButtonGroup genderButtonGroup = new ButtonGroup();
+        genderButtonGroup.add(maleRadioButton);
+        genderButtonGroup.add(femaleRadioButton);
+        add(maleRadioButton);
+        add(femaleRadioButton);
+
+        add(new JLabel("Blood Group:"));
+        String[] bloodGroups = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
+        bloodGroupComboBox = new JComboBox<>(bloodGroups);
+        add(bloodGroupComboBox);
+
+        submitButton = new JButton("Submit");
+        submitButton.addActionListener(this);
+        add(submitButton);
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == submitButton) {
+            String name = nameField.getText();
+            String age = ageField.getText();
+            String gender = maleRadioButton.isSelected() ? "Male" : "Female";
+            String bloodGroup = (String) bloodGroupComboBox.getSelectedItem();
+            String info = "Name: " + name + "\nAge: " + age + "\nGender: " + gender + "\nBlood Group: " + bloodGroup;
+            textArea.setText(info);
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(BloodBankingSystem::new);
+    }
+}
